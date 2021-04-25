@@ -5,7 +5,7 @@
  * @FilePath: /ts-api/helpers/url.ts
  */
 
-import { isDate, isObject } from './util'
+import { isDate, isPlainObject } from './util';
 
 function encode(val: string): string {
   return encodeURIComponent(val)
@@ -25,7 +25,7 @@ function encode(val: string): string {
  * @return {string} The formatted url
  */
 
-export function buildURL(url, params) {
+export function buildURL(url: string, params?: any) {
   if (!params) {
     return url
   }
@@ -53,7 +53,7 @@ export function buildURL(url, params) {
     values.forEach((val) => {
       if (isDate(val)) {
         val = val.toISOString()
-      } else if (isObject(val)) {
+      } else if (isPlainObject(val)) {
         val = val.toString()
       }
       parts.push(`${key}=${val}`)
@@ -65,11 +65,11 @@ export function buildURL(url, params) {
 
   // & #...
   if (serializedParams) {
-    const markIndex = url.indexof('#')
+    const markIndex = url.indexOf('#')
     if (markIndex !== -1) {
-      url = url.splice(0, markIndex)
+      url = url.slice(0, markIndex)
     }
-    url += (url.indexof('?') === -1 ? '?' : '&') + serializedParams
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
   }
 
   return url

@@ -19,10 +19,20 @@ export function isDate(val: any): val is Date {
 /**
  * Determine if a value is an Object
  *
- * @param {Object} val The value to test
- * @returns {boolean} True if value is an Object, otherwise false
+ * @param {any} val The value to test
+ * @returns {object} True if value is an Object, otherwise false
  */
-export function isObject(val: any): val is Object {
-  return val !== null && typeof val === 'object';
+// export function isObject(val: any): val is Object {
+//   return val !== null && typeof val === 'object';
+// }
+
+/**
+ * Determine if a value is an JSON Object
+ *
+ * @param {any} val The value to test
+ * @returns {object} True if value is an Object, otherwise false
+ */
+export function isPlainObject(val: any): val is Object {
+  return toString.call(val) === '[object Object]'
 }
 
