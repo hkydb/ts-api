@@ -1,3 +1,9 @@
+/*
+ * @Auth: Marcuse Yellen
+ * @Date: 2021-04-21 13:00:00
+ * @LastEditTime: 2021-04-29 19:59:50
+ * @FilePath: /ts-api/examples/server.js
+ */
 const express = require('express')
 const bodyParser = require('body-parser')
 const webpack = require('webpack')
@@ -35,6 +41,8 @@ router.get('/simple/get', function(req, res) {
   })
 })
 
+
+
 router.post('/base/post', function(req, res) {
   res.json(req.body)
 })
@@ -71,5 +79,27 @@ router.get('/error/timeout', function(req, res) {
     })
   }, 3000)
 })
+
+
+router.options('/extend/options', function(req, res) {
+    res.end()
+})
+
+
+router.post('/extend/post', function(req, res) {
+    res.json(req.body)
+})
+
+router.get('/extend/user', function(req, res) {
+    res.json({
+      code: 0,
+      message: 'ok',
+      result: {
+        name: 'jack',
+        age: 18
+      }
+    })
+})
+
 
 app.use(router)

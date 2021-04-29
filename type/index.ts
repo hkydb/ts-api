@@ -1,5 +1,12 @@
+/*
+ * @Auth: Marcuse Yellen
+ * @Date: 2021-04-20 21:09:51
+ * @LastEditTime: 2021-04-29 20:03:22
+ * @FilePath: /ts-api/type/index.ts
+ */
+
 export interface AxiosRequestConfig {
-  url: string
+  url?: string
   method?: Method
   data?: any
   params?: any
@@ -20,8 +27,8 @@ export type Method = 'get' | 'GET'
   | 'options' | 'OPTIONS'
 
 
-export interface AxiosResponse {
-  data?: any
+export interface AxiosResponse<T = any> {
+  data: T
   status: number
   statusText: string
   request: any
@@ -30,7 +37,7 @@ export interface AxiosResponse {
 }
 
 
-export interface AxiosPromise extends Promise<AxiosResponse> {
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {
 
 }
 
@@ -41,4 +48,21 @@ export interface AxiosError extends Error {
   config: AxiosRequestConfig,
   code?: string,
   isAxiosError: boolean
+}
+
+export interface Axios {
+  request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
+  get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+  delete<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+  patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+  head<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+  options<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface AxiosInstance extends Axios {
+  <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
+
+  <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
 }

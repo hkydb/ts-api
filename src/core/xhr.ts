@@ -1,6 +1,6 @@
-import { AxiosRequestConfig, AxiosResponse, AxiosPromise } from '../type/index';
-import { parseHeaders } from '../helpers/headers'
-import { createAxiosError } from '../helpers/error';
+import { AxiosRequestConfig, AxiosResponse, AxiosPromise } from '../../type/index';
+import { parseHeaders } from '../../helpers/headers'
+import { createAxiosError } from '../../helpers/error';
 
 
 
@@ -11,7 +11,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     if (responseType) {
       request.responseType = responseType
     }
-    request.open(method.toUpperCase(), url, true)
+    request.open(method.toUpperCase(), url!, true)
     request.onreadystatechange = function () {
       if (request.readyState !== 4) {
         return
