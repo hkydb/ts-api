@@ -1,7 +1,7 @@
 /*
  * @Auth: Marcuse Yellen
  * @Date: 2021-04-21 13:00:00
- * @LastEditTime: 2021-04-29 19:59:50
+ * @LastEditTime: 2021-05-04 22:20:07
  * @FilePath: /ts-api/examples/server.js
  */
 const express = require('express')
@@ -101,5 +101,12 @@ router.get('/extend/user', function(req, res) {
     })
 })
 
+registerInterceptorRouter() 
 
 app.use(router)
+
+function registerInterceptorRouter () {
+  router.get('/interceptor/get', function(req, res) {
+    res.end('hello')
+  })
+}
