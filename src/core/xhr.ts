@@ -1,17 +1,25 @@
+/*
+ * @Auth: Marcuse Yellen
+ * @Date: 2021-04-21 05:40:54
+ * @LastEditTime: 2021-05-07 22:47:48
+ * @FilePath: /ts-api/src/core/xhr.ts
+ */
 import { AxiosRequestConfig, AxiosResponse, AxiosPromise } from '../../type/index';
-import { parseHeaders } from '../../helpers/headers'
+import { parseHeaders, processHeaders } from '../../helpers/headers'
 import { createAxiosError } from '../../helpers/error';
+import { isFormData } from '../../helpers/util';
 
 
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { method = 'get', data = null, url, headers, responseType, timeout } = config
+    const { method = 'get', data = null, url, headers = {}, responseType, timeout } = config
     const request = new XMLHttpRequest()
     if (responseType) {
       request.responseType = responseType
     }
     request.open(method.toUpperCase(), url!, true)
+    processHeaders(headers, data)
     request.onreadystatechange = function () {
       if (request.readyState !== 4) {
         return
@@ -46,7 +54,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       }
     }
 
-    Object.keys(headers).forEach((name) => {
+    Object.keys(headers).forEach(name => {
       if (data === null && name.toLowerCase() === 'content-type') {
         delete headers[name]
       } else {

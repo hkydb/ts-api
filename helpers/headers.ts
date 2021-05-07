@@ -1,4 +1,11 @@
-import { isPlainObject } from './util'
+/*
+ * @Auth: Marcuse Yellen
+ * @Date: 2021-04-25 19:43:57
+ * @LastEditTime: 2021-05-07 20:08:41
+ * @FilePath: /ts-api/helpers/headers.ts
+ */
+import { isPlainObject, deepMerge } from './util';
+import { Method } from '../type/index';
 
 function normalizeHeaderName(headers: any, normalizedName: string): void {
   if (!headers) {
@@ -40,4 +47,19 @@ export function parseHeaders(headers: string): any {
   })
 
   return parsed
+}
+
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers
+  }
+  headers = deepMerge(headers.common, headers[method], headers)
+
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+
+  return headers
 }

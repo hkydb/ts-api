@@ -1,7 +1,7 @@
 /*
  * @Auth: Marcuse Yellen
  * @Date: 2021-04-29 09:56:35
- * @LastEditTime: 2021-05-04 21:59:08
+ * @LastEditTime: 2021-05-07 22:51:47
  * @FilePath: /ts-api/src/core/Axios.ts
  */
 
@@ -14,21 +14,25 @@ import {
 } from '../../type/index'
 import dispatchRequest from './dispatchRequest'
 import InterceptorManager from './interceptor'
+import mergeConfig from './mergeConfig'
+
 
 interface Interceptors {
   request: InterceptorManager<AxiosRequestConfig>
   response: InterceptorManager<AxiosResponse>
 }
 
-interface PromiseChain {
-  resolve: ResolveFn | ((config: AxiosRequestConfig) => AxiosPromise)
+interface PromiseChain<T> {
+  resolve: ResolveFn<T> | ((config: AxiosRequestConfig) => AxiosPromise)
   reject?: RejectFn
 }
 
 export default class Axios {
+  defaults: AxiosRequestConfig
   interceptors: Interceptors
 
-  constructor() {
+  constructor(initConfig: AxiosRequestConfig) {
+    this.defaults = initConfig
     this.interceptors = {
       request: new InterceptorManager<AxiosRequestConfig>(),
       response: new InterceptorManager<AxiosResponse>()
@@ -44,7 +48,11 @@ export default class Axios {
     } else {
       config = url
     }
-    const promiseChain: PromiseChain[] = [
+
+    // todo headers.defalut function' s bug
+    // config = mergeConfig(this.defaults, config)
+
+    const promiseChain: PromiseChain<any>[] = [
       {
         resolve: dispatchRequest,
         reject: undefined

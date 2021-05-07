@@ -1,8 +1,14 @@
+/*
+ * @Auth: Marcuse Yellen
+ * @Date: 2021-04-29 10:27:37
+ * @LastEditTime: 2021-05-07 22:02:41
+ * @FilePath: /ts-api/src/core/dispatchRequest.ts
+ */
 import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from '../../type/index';
 import xhr from './xhr'
 import { transformRequest, transformResponse } from '../../helpers/data';
 import { buildURL } from '../../helpers/url'
-import { processHeaders } from '../../helpers/headers'
+import { flattenHeaders } from '../../helpers/headers'
 
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
@@ -14,8 +20,8 @@ export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromis
 
 function processConfig(config: AxiosRequestConfig): void {
   config.url = transformUrl(config)
-  config.headers = transformHeader(config)
   config.data = transformRequestData(config)
+  config.headers = flattenHeaders(config.headers, config.method!)
 }
 
 function transformRequestData(config: AxiosRequestConfig): any {
@@ -32,7 +38,7 @@ function transformUrl(config: AxiosRequestConfig): string {
   return buildURL(url!, params)
 }
 
-function transformHeader(config: AxiosRequestConfig) {
-  const { headers = {}, data } = config
-  return processHeaders(headers, data)
-}
+// function transformHeader(config: AxiosRequestConfig) {
+//   const { headers = {}, data } = config
+//   return processHeaders(headers, data)
+// }

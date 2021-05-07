@@ -1,7 +1,7 @@
 /*
  * @Auth: Marcuse Yellen
  * @Date: 2021-04-23 16:17:38
- * @LastEditTime: 2021-04-23 16:29:11
+ * @LastEditTime: 2021-05-07 22:27:44
  * @FilePath: /ts-api/helpers/util.ts
  */
 
@@ -36,11 +36,36 @@ export function isPlainObject(val: any): val is Object {
   return toString.call(val) === '[object Object]'
 }
 
+export function isFormData(val: any): val is FormData {
+  return typeof val !== 'undefined' && val instanceof FormData
+}
+
 
 export function extend<T, U>(to: T, from: U): T & U {
   for (const key in from) {
     (to as T & U)[key] = from[key] as any
   }
   return to as T & U
+}
+
+export function deepMerge(...objs: any[]): any {
+  let result = Object.create(null)
+  objs.forEach((obj) => {
+    if (obj) {
+      Object.keys(obj).forEach((key) => {
+        const value = obj[key]
+        if (isPlainObject(value)) {
+          if (isPlainObject(result[key])) {
+            result[key] = deepMerge(result[key], value)
+          } else {
+            result[key] = deepMerge({}, value)
+          }
+        } else {
+          result[key] = value
+        }
+      })
+    }
+  })
+  return result
 }
 

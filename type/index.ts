@@ -2,7 +2,7 @@
 /*
  * @Auth: Marcuse Yellen
  * @Date: 2021-04-20 21:09:51
- * @LastEditTime: 2021-05-04 22:03:22
+ * @LastEditTime: 2021-05-07 22:37:22
  * @FilePath: /ts-api/type/index.ts
  */
 
@@ -14,6 +14,7 @@ export interface AxiosRequestConfig {
   headers?: any
   timeout?: number
   responseType?: XMLHttpRequestResponseType
+  [propName: string]: any
 }
 
 type XMLHttpRequestResponseType = "" | "arraybuffer" | "blob" | "document" | "json" | "text"
@@ -63,6 +64,7 @@ export interface Axios {
 }
 
 export interface AxiosInstance extends Axios {
+  defaults: any
   interceptors: any
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
