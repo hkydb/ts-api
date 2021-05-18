@@ -1,8 +1,9 @@
+import { extend } from '../helpers/util';
 
 /*
  * @Auth: Marcuse Yellen
  * @Date: 2021-04-20 21:09:51
- * @LastEditTime: 2021-05-07 22:37:22
+ * @LastEditTime: 2021-05-11 15:45:17
  * @FilePath: /ts-api/type/index.ts
  */
 
@@ -15,10 +16,15 @@ export interface AxiosRequestConfig {
   timeout?: number
   responseType?: XMLHttpRequestResponseType
   [propName: string]: any
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
 }
 
 type XMLHttpRequestResponseType = "" | "arraybuffer" | "blob" | "document" | "json" | "text"
 
+export interface AxiosTransformer {
+  (data: any, header?: any): any
+}
 
 export type Method = 'get' | 'GET'
   | 'delete' | 'DELETE'
@@ -69,6 +75,10 @@ export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance
 }
 
 

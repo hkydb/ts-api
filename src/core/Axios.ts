@@ -1,7 +1,7 @@
 /*
  * @Auth: Marcuse Yellen
  * @Date: 2021-04-29 09:56:35
- * @LastEditTime: 2021-05-07 22:51:47
+ * @LastEditTime: 2021-05-11 16:44:06
  * @FilePath: /ts-api/src/core/Axios.ts
  */
 
@@ -15,7 +15,6 @@ import {
 import dispatchRequest from './dispatchRequest'
 import InterceptorManager from './interceptor'
 import mergeConfig from './mergeConfig'
-
 
 interface Interceptors {
   request: InterceptorManager<AxiosRequestConfig>
@@ -51,6 +50,7 @@ export default class Axios {
 
     // todo headers.defalut function' s bug
     // config = mergeConfig(this.defaults, config)
+    // config.method = config.method.toLowerCase()
 
     const promiseChain: PromiseChain<any>[] = [
       {
@@ -58,7 +58,6 @@ export default class Axios {
         reject: undefined
       }
     ]
-
     this.interceptors.request.forEach(interceptor => {
       promiseChain.unshift(interceptor)
     })

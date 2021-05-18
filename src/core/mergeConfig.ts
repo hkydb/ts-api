@@ -1,11 +1,5 @@
-import { deepMerge, isPlainObject } from '../../helpers/util';
-import { AxiosRequestConfig } from '../../type/index';
-/*
- * @Auth: Marcuse Yellen
- * @Date: 2021-05-06 21:16:29
- * @LastEditTime: 2021-05-07 22:50:11
- * @FilePath: /ts-api/src/core/mergeConfig.ts
- */
+import { AxiosRequestConfig } from '../../type/index'
+import { deepMerge, isPlainObject } from '../../helpers/util'
 
 const strats = Object.create(null)
 
@@ -70,5 +64,3 @@ export default function mergeConfig(
 
   return config
 }
-
-
